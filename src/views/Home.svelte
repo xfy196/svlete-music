@@ -40,8 +40,6 @@
       await initRequest();
       mescroll.endSuccess();
     }
-    // 上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
-    function upCallback(page) {}
   }
   $: if (imgEls.length === list.length) {
     new LazyLoad(imgEls);

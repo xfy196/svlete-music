@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { getTopListDetail } from "../api";
-
+  import MeScroll from "mescroll.js";
   import Loading from "../components/Loading.svelte";
   let loading: boolean = true;
   let data: {
@@ -9,9 +9,32 @@
     list: Array<any>;
     rewardToplist: object;
   };
+  let scrollDom: HTMLDivElement;
+  let mescroll;
   onMount(() => {
     getToplistDetailRequest();
   });
+
+  $: if (scrollDom) {
+    mescroll = new MeScroll(scrollDom, {
+      down: {
+        auto: true,
+        offset: 50,
+        callback: downCallback,
+      },
+      up: {
+        use: false,
+        lazyLoad: {
+          use: true,
+        },
+      },
+    });
+    // 下拉刷新的回调
+    async function downCallback(mescroll) {
+      await getToplistDetailRequest();
+      mescroll.endSuccess();
+    }
+  }
 
   const getToplistDetailRequest = async () => {
     try {
@@ -25,7 +48,7 @@
 
 <div class="rank__container">
   {#if !loading}
-    <div class="wrapper">
+    <div bind:this={scrollDom} class="wrapper">
       <div class="official-list-container">
         <div class="title">官方榜</div>
         <div class="official-list">
