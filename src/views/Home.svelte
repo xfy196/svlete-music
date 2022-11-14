@@ -19,6 +19,9 @@
   let mescroll;
   let loading: boolean = true;
   onMount(() => {
+    initRequest();
+  });
+  $: if (scrollDom) {
     mescroll = new MeScroll(scrollDom, {
       down: {
         auto: true,
@@ -35,12 +38,11 @@
     // 下拉刷新的回调
     async function downCallback(mescroll) {
       await initRequest();
-      loading = false;
       mescroll.endSuccess();
     }
     // 上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
     function upCallback(page) {}
-  });
+  }
   const handleImageLoad = (e: any) => {
     imgEls.push(e.target);
     if (imgEls.length === list.length) {
@@ -50,6 +52,7 @@
   const initRequest: () => Promise<void> = async () => {
     await getBannerRequest();
     await getPersonalizedRequest();
+    loading = false;
   };
   // 获取推荐列表数据
   const getPersonalizedRequest: () => Promise<any> = async () => {
