@@ -7,3 +7,7 @@ export const getBanner = (): any => {
 export const getPersonalized = (): any => {
   return request.get("/api/personalized");
 };
+// 获取排行榜详情
+export const getTopListDetail = (): any => {
+  return request.get("/api/toplist/detail");
+};

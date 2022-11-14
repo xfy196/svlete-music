@@ -1,19 +1,169 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { getTopListDetail } from "../api";
 
   import Loading from "../components/Loading.svelte";
   let loading: boolean = true;
+  let data: {
+    artistToplist: object;
+    list: Array<any>;
+    rewardToplist: object;
+  };
   onMount(() => {
-    loading = false;
+    getToplistDetailRequest();
   });
+
+  const getToplistDetailRequest = async () => {
+    try {
+      let res = await getTopListDetail();
+      data = res;
+      console.log(data);
+      loading = false;
+    } catch (error) {}
+  };
 </script>
 
 <div class="rank__container">
   {#if !loading}
-    <p>rank</p>
+    <div class="wrapper">
+      <div class="official-list-container">
+        <div class="title">官方榜</div>
+        <div class="official-list">
+          {#each data?.list?.slice(0, 4) as item (item.id)}
+            <div class="item">
+              <div class="left-icon">
+                <div class="update-state">
+                  {item.updateFrequency}
+                </div>
+                <img src={item.coverImgUrl} alt={item.description} />
+              </div>
+              <div class="right-rank-tracks">
+                {#each item.tracks as track, i (track.second)}
+                  <div class="track">
+                    <div class="number">
+                      {i + 1}
+                    </div>
+                    <div class="first">
+                      {track.first}
+                    </div>
+                    <span class="link">-</span>
+                    <div class="second">
+                      {track.second}
+                    </div>
+                  </div>
+                {/each}
+              </div>
+            </div>
+          {/each}
+        </div>
+      </div>
+      <div class="global-list-container">
+        <div class="title">全球榜</div>
+        <div class="global-list">
+          {#each data?.list?.slice(4) as item (item.id)}
+            <div class="item">
+              <img src={item.coverImgUrl} alt={item.name} />
+              <div class="update-state">{item.updateFrequency}</div>
+            </div>
+          {/each}
+        </div>
+      </div>
+    </div>
   {:else}
     <Loading />
   {/if}
 </div>
 
-<style lang="scss" type="text/scss" scoped></style>
+<style lang="scss" type="text/scss" scoped>
+  .rank__container {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    .wrapper {
+      width: 100%;
+      padding: 0 4px;
+      .official-list-container {
+        .title {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          font-size: 14px;
+          font-weight: bolder;
+        }
+        .official-list {
+          .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+            &:last-of-type {
+              margin-bottom: 0;
+            }
+            .left-icon {
+              width: 100px;
+              height: 100px;
+              position: relative;
+              img {
+                width: 100%;
+                height: 100%;
+                border-radius: 3px;
+              }
+              .update-state {
+                position: absolute;
+                bottom: 7px;
+                left: 7px;
+                font-size: 12px;
+                color: #f1f1f1;
+              }
+            }
+            .right-rank-tracks {
+              margin-left: 10px;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-evenly;
+              height: 100px;
+              .track {
+                display: flex;
+                font-size: 12px;
+                color: grey;
+                .link {
+                  margin: 0 4px;
+                }
+                .number {
+                  margin-right: 4px;
+                }
+              }
+            }
+          }
+        }
+      }
+      .global-list-container {
+        .title {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          font-size: 14px;
+          font-weight: bolder;
+        }
+        .global-list {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-column-gap: 4px;
+          grid-row-gap: 4px;
+          .item {
+            position: relative;
+            .update-state {
+              position: absolute;
+              left: 7px;
+              bottom: 7px;
+              font-size: 12px;
+              color: #f1f1f1;
+            }
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
