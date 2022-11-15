@@ -23,3 +23,8 @@ a {
 .downwarp-tip {
   color: #f0a1a8 !important;
 }
+
+html,
+body {
+  font-size: 16px;
+}
