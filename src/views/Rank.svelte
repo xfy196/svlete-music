@@ -3,6 +3,8 @@
   import { getTopListDetail } from "../api";
   import MeScroll from "mescroll.js";
   import Loading from "../components/Loading.svelte";
+  import Header from "../layout/Header.svelte";
+  import Nav from "../layout/Nav.svelte";
   let loading: boolean = true;
   let data: {
     artistToplist: object;
@@ -46,6 +48,8 @@
   };
 </script>
 
+<Header />
+<Nav />
 <div class="rank__container">
   {#if !loading}
     <div bind:this={scrollDom} class="wrapper">
@@ -66,12 +70,8 @@
                     <div class="number">
                       {i + 1}
                     </div>
-                    <div class="first">
-                      {track.first}
-                    </div>
-                    <span class="link">-</span>
-                    <div class="second">
-                      {track.second}
+                    <div class="track-content">
+                      {track.first}-{track.second}
                     </div>
                   </div>
                 {/each}
@@ -143,6 +143,10 @@
               flex-direction: column;
               justify-content: space-evenly;
               height: 100px;
+              flex: 1;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
               .track {
                 display: flex;
                 font-size: 12px;
@@ -152,6 +156,12 @@
                 }
                 .number {
                   margin-right: 4px;
+                }
+                .track-content {
+                  width: 230px;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  white-space: nowrap;
                 }
               }
             }

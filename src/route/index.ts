@@ -9,6 +9,9 @@ const routes = {
   "/rank": wrap({
     asyncComponent: () => import("../views/Rank.svelte"),
   }),
+  "/album/:id": wrap({
+    asyncComponent: () => import("../views/Album.svelte"),
+  }),
 };
 
 export default routes;

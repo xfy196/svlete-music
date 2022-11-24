@@ -1,7 +1,10 @@
 <script lang="ts">
   import Loading from "../components/Loading.svelte";
+  import { push } from "svelte-spa-router";
   import { Swiper, SwiperSlide } from "swiper/svelte";
   import { Pagination, Autoplay } from "swiper";
+  import Header from "../layout/Header.svelte";
+  import Nav from "../layout/Nav.svelte";
   import "swiper/css";
   import "swiper/css/pagination";
   import "swiper/css/autoplay";
@@ -73,6 +76,8 @@
   };
 </script>
 
+<Header />
+<Nav />
 <div class="home__container">
   {#if !loading}
     <div class="mescroll" bind:this={scrollDom}>
@@ -103,7 +108,7 @@
         {/if}
         <ul class="list">
           {#each list as item (item.id)}
-            <li class="list-item">
+            <li class="list-item" on:click={() => push(`/album/${item.id}`)}>
               <img
                 class="lazyload"
                 on:load={handleImageLoad}

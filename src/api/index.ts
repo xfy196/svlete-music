@@ -11,3 +11,9 @@ export const getPersonalized = (): any => {
 export const getTopListDetail = (): any => {
   return request.get("/api/toplist/detail");
 };
+// 获取歌曲列表
+export const getTrackSongs = (params): any => {
+  return request.get("/api/playlist/track/all", {
+    params,
+  });
+};
