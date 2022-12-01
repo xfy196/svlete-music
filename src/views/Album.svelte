@@ -41,9 +41,9 @@
     loading = false;
     songs = res.songs;
   };
-  // params.subscribe(async (data) => {
-  //   id = data?.id;
-  // });
+  const getSubTitle = (song: any): string => {
+    return song?.ar.map((item) => item.name).join(",") + "-" + song?.al.name;
+  };
 </script>
 
 <div class="album-container">
@@ -56,9 +56,17 @@
   <div class="content">
     {#if !loading}
       <div class="songs">
-        {#each songs as song (song.id)}
+        {#each songs as song, index (song.id)}
           <div in:receive={{ key: song.id }} animate:flip class="song">
-            {song.name}
+            <div class="number">
+              {index + 1}
+            </div>
+            <div class="songWrap">
+              <div class="name">{song.name}</div>
+              <div class="subtitle">
+                {getSubTitle(song)}
+              </div>
+            </div>
           </div>
         {/each}
       </div>
@@ -95,14 +103,42 @@
       }
     }
     .content {
-      height: calc(100vh - 32px);
-      overflow: auto;
       display: flex;
       justify-content: center;
+
       .songs {
         width: 100%;
+        overflow: auto;
+        height: 100%;
+        height: calc(100vh - 32px);
+        padding-bottom: 12px;
         .song {
-          background: #ff4400;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          .songWrap {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            width: calc(100vw - 72px);
+            .subtitle {
+              font-size: 12px;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+            }
+            .name {
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+            }
+          }
+          .number {
+            margin-right: 12px;
+            width: 40px;
+            text-align: center;
+          }
         }
       }
     }
