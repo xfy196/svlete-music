@@ -5,7 +5,7 @@
 </div>
 
 <style type="text/scss" scoped lang="scss">
-.header {
+  .header {
     height: 32px;
     display: flex;
     justify-content: center;

@@ -12,6 +12,9 @@ const routes = {
   "/album/:id": wrap({
     asyncComponent: () => import("../views/Album.svelte"),
   }),
+  "/todolist": wrap({
+    asyncComponent: () => import("../views/TodoList.svelte"),
+  }),
 };
 
 export default routes;

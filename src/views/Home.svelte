@@ -27,7 +27,7 @@
   $: if (scrollDom) {
     mescroll = new MeScroll(scrollDom, {
       down: {
-        auto: true,
+        auto: false,
         offset: 50,
         callback: downCallback,
       },
@@ -44,11 +44,12 @@
       mescroll.endSuccess();
     }
   }
-  $: if (imgEls.length === list.length) {
+  $: if (imgEls.length === list.length && list.length > 0 && mescroll) {
     new LazyLoad(imgEls);
   }
+
   const handleImageLoad = (e: any) => {
-    imgEls.push(e.target);
+    imgEls = [...imgEls, e.target];
   };
   const initRequest: () => Promise<void> = async () => {
     await getBannerRequest();
@@ -57,10 +58,10 @@
   };
   // 获取推荐列表数据
   const getPersonalizedRequest: () => Promise<any> = async () => {
-    let res = await getPersonalized();
-    hasMore = res.hasMore;
-    list = res.result;
     try {
+      let res = await getPersonalized();
+      hasMore = res.hasMore;
+      list = res.result;
     } catch (error) {
       console.log(error);
     }
@@ -132,6 +133,8 @@
     --swiper-pagination-color: #f0a1a8;
     display: flex;
     justify-content: center;
+    height: calc(100vh - 64px);
+    overflow: auto;
     .banner {
       .banner_item {
         width: 367px;

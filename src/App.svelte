@@ -10,8 +10,4 @@
 </main>
 
 <style lang="scss" type="text/scss" scoped>
-  .main {
-    height: calc(100vh - 64px);
-    overflow: auto;
-  }
 </style>
