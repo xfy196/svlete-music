@@ -8,6 +8,3 @@
     <Router {routes} />
   </div>
 </main>
-
-<style lang="scss" type="text/scss" scoped>
-</style>

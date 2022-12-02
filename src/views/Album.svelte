@@ -76,7 +76,7 @@
   </div>
 </div>
 
-<style scoped type="text/scss" lang="scss">
+<style type="text/scss" lang="scss">
   .album-container {
     background-color: #ffffff;
     display: flex;

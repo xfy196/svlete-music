@@ -128,7 +128,7 @@
   {/if}
 </div>
 
-<style lang="scss" type="text/scss" scoped>
+<style lang="scss" type="text/scss">
   .home__container {
     --swiper-pagination-color: #f0a1a8;
     display: flex;

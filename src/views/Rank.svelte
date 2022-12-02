@@ -5,6 +5,7 @@
   import Loading from "../components/Loading.svelte";
   import Header from "../layout/Header.svelte";
   import Nav from "../layout/Nav.svelte";
+  import { push } from "svelte-spa-router";
   let loading: boolean = true;
   let data: {
     artistToplist: object;
@@ -58,7 +59,7 @@
         <div class="official-list">
           {#each data?.list?.slice(0, 4) as item (item.id)}
             <div class="item">
-              <div class="left-icon">
+              <div on:click={() => push(`/album/${item.id}`)} class="left-icon">
                 <div class="update-state">
                   {item.updateFrequency}
                 </div>
@@ -84,7 +85,7 @@
         <div class="title">全球榜</div>
         <div class="global-list">
           {#each data?.list?.slice(4) as item (item.id)}
-            <div class="item">
+            <div on:click={() => push(`/album/${item.id}`)} class="item">
               <img src={item.coverImgUrl} alt={item.name} />
               <div class="update-state">{item.updateFrequency}</div>
             </div>
@@ -97,7 +98,7 @@
   {/if}
 </div>
 
-<style lang="scss" type="text/scss" scoped>
+<style lang="scss" type="text/scss">
   .rank__container {
     display: flex;
     justify-content: center;
